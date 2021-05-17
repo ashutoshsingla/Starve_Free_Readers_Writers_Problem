@@ -2,6 +2,7 @@
 The readers-writers problem is one of the most famous problems concerning processs synchronisation and concurrent in computer science. It is one of the most prominent problems in the field of process management. Process synchronisation is required to manage the readers and the writers so that there is no inconsistency generated. The problem relates to a dataset such as a file which is shared between more than one processes at a time. Concurrent threads of execution attempt to access the same file at the same time. The involved users or the processes can be divided into two types:
 - Readers - The processes which wish to read the dataset but do not update or modify it.
 - Writers - The processes which can both read and modify the shared resource, such as a file.
+
 The following are the three variations to this problem-
 
 ### First readers–writers problem
