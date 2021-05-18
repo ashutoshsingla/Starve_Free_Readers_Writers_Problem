@@ -1,0 +1,52 @@
+// CODE FOR INTIALIZATION
+readers_in_cs = Integer(0);           //The integer reader_in_cs represents the number of readers executing the critical section
+access_for_cs = Semaphore(1);         //access_for_cs is the seamphore required to access the critical section
+read_mutex = Semaphore(1);            //read_mutex is the seamphore required to change the readers_in_cs variable
+order = Semaphore(1);                 //order is the seamphore which represents the order in which the writer and reader request access to the critical section
+
+
+// CODE FOR WRITER FORMAT
+do
+{
+    <ENTRY SECTION>    
+        wait(order);                   //The writer waits for its turn to get executed
+        wait(access_for_cs);           //The writer requests access to the critical section
+        signal(order);                 //releasing order so that the next reader or writer can take the token and can be serviced
+    
+    <CRITICAL SECTION>
+
+
+    <EXIT SECTION>
+        signal(access_for_cs)           //releasing access to critical section for next reader or writer
+
+    <REMAINDER SECTION>
+ }
+while(true);
+
+// CODE FOR READER FORMAT
+
+do
+{
+    <ENTRY SECTION>
+        wait(order);                     //waiting for its turn to get executed
+        wait(read_mutex);                //requesting access to change readers_in_cs
+        readers_in_cs++;                 //update the number of readers trying to access critical section 
+        if(readers_in_cs==1)             // check if this is the first reader, grant access to the critical section
+            wait(access_for_cs);         //requesting  access to the critical section for readers
+        signal(order);                   //releasing turn so that the next reader or writer can take the token and can be serviced
+        signal(read_mutex);              //release access to the readers_in_cs
+    
+    <CRITICAL SECTION>
+        
+
+    <EXIT SECTION>
+        wait(read_mutex)                 //requesting access to change readers_in_cs         
+        readers_in_cs--;                 //a reader has finished executing critical section so readers_in_cs decrease by 1
+        if(readers_in_cs==0)             //if all the reader have finished executing their critical section
+            signal(access_for_cs);       //releasing access to critical section for next reader or writer
+        signal(read_mutex);              //release access to the readers_in_cs  
+        
+    <REMAINDER SECTION>
+}
+while(true);
+
