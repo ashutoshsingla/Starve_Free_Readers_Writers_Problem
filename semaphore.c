@@ -64,7 +64,7 @@ void wait(Semaphore* sema, int* process_id)
       the process will remain in the waiting queue till it is waken up by the wakeup() system calls
       this is a type of non busy waiting*/
   }
-};
+}
     
 void signal(Semaphore* sema)
 {
